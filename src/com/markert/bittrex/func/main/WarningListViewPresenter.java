@@ -3,7 +3,9 @@ package com.markert.bittrex.func.main;
 import com.google.gson.Gson;
 import com.markert.bittrex.common.*;
 import com.markert.bittrex.pojo.MarketSummaryModel;
+import com.markert.bittrex.pojo.WarningSettingModel;
 import com.sun.istack.internal.NotNull;
+import com.sun.istack.internal.Nullable;
 import okhttp3.*;
 
 import javax.swing.*;
@@ -15,7 +17,7 @@ import java.util.List;
  */
 public class WarningListViewPresenter implements InitData {
     private AudioPlayer audioPlayer = new AudioPlayer();
-
+    private WarningSettingViewModel warningSettingViewModel;
     @NotNull
     private final OkHttpClient client = new OkHttpClient();
     private WarningListView warningListView;
@@ -50,6 +52,7 @@ public class WarningListViewPresenter implements InitData {
             public void onResponse(Call call, Response response) throws IOException {
                 MarketSummaryModel marketSummaryModel = new Gson().fromJson(response.body().charStream(), MarketSummaryModel.class);
                 if (marketSummaryModel.isSuccess()) {
+                    warningSettingViewModel = ConfigUtil.loadSetting();
                     warningListView.render(marketSummaryModel);
                 }
                 delayRequestNewData();
@@ -57,15 +60,25 @@ public class WarningListViewPresenter implements InitData {
         });
     }
 
-    public WarningSettingViewModel getWarningSetting() {
-        return ConfigUtil.loadSetting();
+    private WarningSettingViewModel getWarningSettingViewModel() {
+        if (warningSettingViewModel == null) {
+            warningSettingViewModel = ConfigUtil.loadSetting();
+        }
+        return warningSettingViewModel;
     }
 
     public void showNotification(List<MarketSummaryModel.Result> lstResultNotification) {
-        if (!audioPlayer.isPlaying()) {
-            audioPlayer.play("warning.wav");
+        WarningSettingViewModel warningSetting = getWarningSettingViewModel();
+        if (warningSetting != null) {
+            if (warningSetting.isSoundEnable()) {
+                if (!audioPlayer.isPlaying()) {
+                    audioPlayer.play("warning.wav");
+                }
+            }
+            if (warningSetting.isNotificationEnable()) {
+                warningNotificationPresenter.showNotification(lstResultNotification);
+            }
         }
-        warningNotificationPresenter.showNotification(lstResultNotification);
     }
 
     @Override
@@ -75,5 +88,15 @@ public class WarningListViewPresenter implements InitData {
 
     public void showBrowserMarket(String marketName) {
         Util.showUrlByBrowser(marketName);
+    }
+
+    @Nullable
+    public WarningSettingModel getWarningSettingModel() {
+        WarningSettingViewModel warningSetting = getWarningSettingViewModel();
+        WarningSettingModel warningSettingModel = null;
+        if (warningSetting != null) {
+            warningSettingModel = warningSetting.getWarningSettingModel();
+        }
+        return warningSettingModel;
     }
 }

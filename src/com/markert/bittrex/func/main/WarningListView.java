@@ -84,9 +84,9 @@ public class WarningListView {
 
     public void render(MarketSummaryModel marketSummaryModel) {
         HashMap<String, WarningSettingModel.SettingWarningItem> mapSetting = new HashMap<>();
-        WarningSettingViewModel warningSettingViewModel = ConfigUtil.loadSetting();
-        if (warningSettingViewModel != null) {
-            List<WarningSettingModel.SettingWarningItem> lstSettingWarning = warningSettingViewModel.getWarningSettingModel().getLstSettingWarning();
+        WarningSettingModel warningSettingModel = warningListPresenter.getWarningSettingModel();
+        if (warningSettingModel != null) {
+            List<WarningSettingModel.SettingWarningItem> lstSettingWarning = warningSettingModel.getLstSettingWarning();
             for (WarningSettingModel.SettingWarningItem settingWarningItem : lstSettingWarning) {
                 mapSetting.put(settingWarningItem.getMarketName(), settingWarningItem);
             }
@@ -127,9 +127,7 @@ public class WarningListView {
             }
         }
         if (needNotification) {
-            if (warningSettingViewModel!= null && warningSettingViewModel.isNotificationEnable()) {
-                warningListPresenter.showNotification(lstResultNotification);
-            }
+            warningListPresenter.showNotification(lstResultNotification);
         }
         tableModel.setDataVector(vectors, columns);
         table.getColumnModel().getColumn(0).setMinWidth(80);
