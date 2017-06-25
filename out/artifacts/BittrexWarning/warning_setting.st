@@ -13,7 +13,7 @@
     {
     "marketName": "BTC-INFX",
     "min": "0.0002",
-    "max": "0.0003"
+    "max": "0.00035"
   },
     {
     "marketName": "BTC-VOX",

@@ -9,9 +9,11 @@ import java.awt.event.ActionListener;
  * Created by admin on 6/24/17.
  */
 public class MainForm {
-    protected JPanel mainPanel;
-    protected JTable tableData;
+    public JPanel mainPanel;
+    public JTable tableData;
     private JTabbedPane tabbedPane1;
-    protected JButton btSaveListWarning;
-    protected JTextArea tInputSettingWarning;
+    public JButton btSaveListWarning;
+    public JTextArea tInputSettingWarning;
+    public JCheckBox cbNotification;
+    public JCheckBox cbSound;
 }

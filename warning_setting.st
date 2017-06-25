@@ -3,7 +3,7 @@
   {
     "marketName": "BTC-ANS",
     "min": "0.002",
-    "max": "0.0023"
+    "max": "0.003"
   },
     {
     "marketName": "BTC-INFX",
