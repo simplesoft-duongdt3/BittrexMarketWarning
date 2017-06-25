@@ -1,10 +1,7 @@
 package com.markert.bittrex.func.main;
 
 import com.google.gson.Gson;
-import com.markert.bittrex.common.ConfigUtil;
-import com.markert.bittrex.common.InitData;
-import com.markert.bittrex.common.Util;
-import com.markert.bittrex.common.WarningNotificationPresenter;
+import com.markert.bittrex.common.*;
 import com.markert.bittrex.pojo.MarketSummaryModel;
 import com.sun.istack.internal.NotNull;
 import okhttp3.*;
@@ -17,6 +14,8 @@ import java.util.List;
  * Created by admin on 6/25/17.
  */
 public class WarningListViewPresenter implements InitData {
+    private AudioPlayer audioPlayer = new AudioPlayer();
+
     @NotNull
     private final OkHttpClient client = new OkHttpClient();
     private WarningListView warningListView;
@@ -63,6 +62,9 @@ public class WarningListViewPresenter implements InitData {
     }
 
     public void showNotification(List<MarketSummaryModel.Result> lstResultNotification) {
+        if (!audioPlayer.isPlaying()) {
+            audioPlayer.play("warning.wav");
+        }
         warningNotificationPresenter.showNotification(lstResultNotification);
     }
 
