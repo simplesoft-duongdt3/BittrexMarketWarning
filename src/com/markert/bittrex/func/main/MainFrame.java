@@ -2,7 +2,6 @@ package com.markert.bittrex.func.main;
 
 import com.markert.bittrex.common.InitData;
 import com.markert.bittrex.MainForm;
-import com.markert.bittrex.common.SettingPresenter;
 import com.markert.bittrex.common.WarningNotificationPresenter;
 
 import javax.swing.*;
@@ -25,7 +24,6 @@ public class MainFrame extends JFrame implements InitData {
 
         MainForm mainForm = new MainForm();
         WarningListView warningListView = new WarningListView(mainForm.tableData, warningListPresenter);
-        warningListPresenter.setSettingPresenter(new SettingPresenter());
         warningListPresenter.setWarningNotificationPresenter(new WarningNotificationPresenter());
         warningListPresenter.setWarningListView(warningListView);
 

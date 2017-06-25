@@ -1,12 +1,11 @@
 package com.markert.bittrex.func.main;
 
 import com.google.gson.Gson;
+import com.markert.bittrex.common.ConfigUtil;
 import com.markert.bittrex.common.InitData;
-import com.markert.bittrex.common.SettingPresenter;
 import com.markert.bittrex.common.Util;
 import com.markert.bittrex.common.WarningNotificationPresenter;
 import com.markert.bittrex.pojo.MarketSummaryModel;
-import com.markert.bittrex.pojo.WarningSettingModel;
 import com.sun.istack.internal.NotNull;
 import okhttp3.*;
 
@@ -22,15 +21,10 @@ public class WarningListViewPresenter implements InitData {
     private final OkHttpClient client = new OkHttpClient();
     private WarningListView warningListView;
 
-    private SettingPresenter settingPresenter;
     private WarningNotificationPresenter warningNotificationPresenter;
 
     public void setWarningListView(WarningListView warningListView) {
         this.warningListView = warningListView;
-    }
-
-    public void setSettingPresenter(SettingPresenter settingPresenter) {
-        this.settingPresenter = settingPresenter;
     }
 
     public void setWarningNotificationPresenter(WarningNotificationPresenter warningNotificationPresenter) {
@@ -64,8 +58,8 @@ public class WarningListViewPresenter implements InitData {
         });
     }
 
-    public WarningSettingModel getWarningSetting() {
-        return settingPresenter.getWarningSettingFromFile();
+    public WarningSettingViewModel getWarningSetting() {
+        return ConfigUtil.loadSetting();
     }
 
     public void showNotification(List<MarketSummaryModel.Result> lstResultNotification) {

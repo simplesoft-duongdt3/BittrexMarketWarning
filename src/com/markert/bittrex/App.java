@@ -8,8 +8,6 @@ import javax.swing.*;
  * Created by admin on 6/24/17.
  */
 public class App {
-
-
     public static void main(String[] args) {
         JFrame frame = new MainFrame();
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

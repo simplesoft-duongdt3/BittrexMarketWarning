@@ -1,5 +1,6 @@
 package com.markert.bittrex.func.main;
 
+import com.markert.bittrex.common.ConfigUtil;
 import com.markert.bittrex.pojo.MarketSummaryModel;
 import com.markert.bittrex.pojo.WarningSettingModel;
 import com.sun.istack.internal.NotNull;
@@ -24,7 +25,7 @@ public class WarningListView {
     @NotNull
     private final Vector<String> columns = new Vector<>();
     @NotNull
-    private final Class[] columnClass = new Class[]{
+    private final Class[] columnClass = new Class[] {
             String.class, String.class, String.class, Boolean.class, Boolean.class
     };
 
@@ -60,7 +61,7 @@ public class WarningListView {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int row = table.rowAtPoint(evt.getPoint());
                 int col = table.columnAtPoint(evt.getPoint());
-                if (row >= 0 && col >= 0) {
+                if (row >= 0 && col == 0) {
                     String marketName = (String) tableModel.getValueAt(row, col);
                     warningListPresenter.showBrowserMarket(marketName);
                 }
@@ -83,9 +84,10 @@ public class WarningListView {
 
     public void render(MarketSummaryModel marketSummaryModel) {
         HashMap<String, WarningSettingModel.SettingWarningItem> mapSetting = new HashMap<>();
-        WarningSettingModel warningSettingFromFile = warningListPresenter.getWarningSetting();
-        if (warningSettingFromFile != null) {
-            for (WarningSettingModel.SettingWarningItem settingWarningItem : warningSettingFromFile.getLstSettingWarning()) {
+        WarningSettingViewModel warningSettingViewModel = ConfigUtil.loadSetting();
+        if (warningSettingViewModel != null) {
+            List<WarningSettingModel.SettingWarningItem> lstSettingWarning = warningSettingViewModel.getWarningSettingModel().getLstSettingWarning();
+            for (WarningSettingModel.SettingWarningItem settingWarningItem : lstSettingWarning) {
                 mapSetting.put(settingWarningItem.getMarketName(), settingWarningItem);
             }
         }
@@ -125,7 +127,9 @@ public class WarningListView {
             }
         }
         if (needNotification) {
-            warningListPresenter.showNotification(lstResultNotification);
+            if (warningSettingViewModel!= null && warningSettingViewModel.isNotificationEnable()) {
+                warningListPresenter.showNotification(lstResultNotification);
+            }
         }
         tableModel.setDataVector(vectors, columns);
         table.getColumnModel().getColumn(0).setMinWidth(80);

@@ -1,17 +1,28 @@
 package com.markert.bittrex.func.main;
 
+import com.google.gson.Gson;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+import com.markert.bittrex.pojo.WarningSettingModel;
+
 /**
  * Created by admin on 6/25/17.
  */
 public class WarningSettingViewModel {
+    @SerializedName("notificationEnable")
+    @Expose
     private boolean notificationEnable;
+    @SerializedName("soundEnable")
+    @Expose
     private boolean soundEnable;
-    private String warningSettingText;
+    @SerializedName("warningSettingModel")
+    @Expose
+    private WarningSettingModel warningSettingModel;
 
-    public WarningSettingViewModel(boolean notificationEnable, boolean soundEnable, String warningSettingModel) {
+    public WarningSettingViewModel(boolean notificationEnable, boolean soundEnable, WarningSettingModel warningSettingModel) {
         this.notificationEnable = notificationEnable;
         this.soundEnable = soundEnable;
-        this.warningSettingText = warningSettingModel;
+        this.warningSettingModel = warningSettingModel;
     }
 
     public boolean isNotificationEnable() {
@@ -22,7 +33,11 @@ public class WarningSettingViewModel {
         return soundEnable;
     }
 
+    public WarningSettingModel getWarningSettingModel() {
+        return warningSettingModel;
+    }
+
     public String getWarningSettingText() {
-        return warningSettingText;
+        return new Gson().toJson(warningSettingModel);
     }
 }
