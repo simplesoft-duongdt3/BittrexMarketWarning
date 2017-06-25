@@ -1,9 +1,14 @@
 {
   "lstSettingWarning": [
   {
+    "marketName": "BTC-ETH",
+    "min": "0.10",
+    "max": "0.13"
+  },
+  {
     "marketName": "BTC-ANS",
     "min": "0.002",
-    "max": "0.0023"
+    "max": "0.0035"
   },
     {
     "marketName": "BTC-INFX",
